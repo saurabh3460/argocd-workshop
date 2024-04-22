@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: argocd-vs
+  namespace: argocd
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - robot-shop/robotshop-gateway
+  http:
+  - match:
+    # - uri:
+    #     exact: /
+    - uri:
+        prefix: /
+    # rewrite:
+    #   uri: "/"
+    route:
+    - destination:
+        host: argocd-server
+        port:
+          number: 80
