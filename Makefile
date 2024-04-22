@@ -24,6 +24,9 @@ setup-argocd-cli:
 		$(shell kubectl get svc argocd-server -n argocd -o jsonpath='{.status.loadBalancer.ingress[0].ip}') \
 		--insecure 
 
+add-cluster:
+	argocd cluster add k3d-cluster-2 -y
+
 get-argocd-endpoint:
 	@echo "http://$(shell kubectl get svc argocd-server -n argocd -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
 
