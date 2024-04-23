@@ -1,6 +1,6 @@
 setup-multi-cluster:
-	k3d cluster create cluster-1 --k3s-arg "--disable=traefik@server:*" 
-	k3d cluster create cluster-2 --k3s-arg "--disable=traefik@server:*"
+	kind create cluster --name cluster-1
+	kind create cluster --name cluster-2
 	kubectx kind-cluster-2
 	kubectl patch svc kubernetes -n default -p '{"spec": {"type": "NodePort"}}'
 
@@ -40,8 +40,8 @@ get-argocd-password:
 	@echo "$(shell kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo)"
 
 destroy-multi-cluster:
-	k3d cluster delete cluster-1
-	k3d cluster delete cluster-2
+	kind delete cluster --name kind-cluster-1
+	kind delete cluster --name kind-cluster-2
 
 destroy-argocd:
 	kubectl delete -n argocd -f ./argocd-install.yaml
