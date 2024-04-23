@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argo-projects
+spec:
+  generators: 
+    - matrix:
+        generators:
+        - git:
+            repoURL: https://github.com/AmrAlaaYassen/ArgoCD-ApplicationSet-Demo.git
+            revision: HEAD
+            directories:
+              - path: git-dir-generator-example/argo-projects/*
+        - clusters: {}
+        # - list:
+        #     elements:
+        #       - cluster: In-cluster
+        #         server: https://kubernetes.default.svc
+        #       - cluster: kind-cluster-2 
+        #         server: https://172.19.0.3:30314
+  template:
+    metadata:
+      name: '{{path.basename}}-{{name}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/AmrAlaaYassen/ArgoCD-ApplicationSet-Demo.git
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: '{{server}}'
+        namespace: '{{path.basename}}'
