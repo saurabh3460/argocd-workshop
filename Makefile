@@ -40,8 +40,7 @@ get-argocd-password:
 	@echo "$(shell kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo)"
 
 destroy-multi-cluster:
-	kind delete cluster --name kind-cluster-1
-	kind delete cluster --name kind-cluster-2
+	kind delete clusters cluster-1 cluster-2
 
 destroy-argocd:
 	kubectl delete -n argocd -f ./argocd-install.yaml
