@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/name: argocd-rbac-cm
+    app.kubernetes.io/part-of: argocd
+  name: argocd-rbac-cm
+  namespace: argocd
+data:
+  policy.csv: |-
+    p,role:sre,applications,get,default/*,allow
+    p,role:sre,applications,create,default/*,allow
+    p,role:sre,applications,update,default/*,allow
+    g,saurabh,role:sre
+
+
+# Resources: clusters, projects, applications, applicationsets, repositories, certificates, accounts, gpgkeys, logs, exec, extensions
+
+# Actions: get, create, update, delete, sync, override,action/<group/kind/action-name>
+
+# Note that sync, override, and action/<group/kind/action-name> only have meaning for the applications resource

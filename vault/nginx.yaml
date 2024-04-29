@@ -1,0 +1,22 @@
+ apiVersion: argoproj.io/v1alpha1
+ kind: Application
+ metadata:
+   name: my-nginx-vault-demo
+   namespace: argocd
+ spec:
+   destination:
+     namespace: default
+     server: https://kubernetes.default.svc 
+   project: default
+   source:
+     repoURL: https://github.com/ppratheesh/simple-microservices-app.git
+     targetRevision: HEAD
+     path: custom-app/Vault
+     plugin:
+       name: argocd-vault-plugin
+   syncPolicy:
+     automated:
+       prune: true
+       selfHeal: true
+     syncOptions:
+     - CreateNamespace=true
